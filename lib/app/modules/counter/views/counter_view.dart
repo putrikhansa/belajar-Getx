@@ -9,46 +9,74 @@ class CounterView extends StatelessWidget {
   Widget build(BuildContext context) {
     final CounterController c = Get.put(CounterController());
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("CounterView"),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Get.back(); // untuk kembali ke halaman sebelumnya
-          },
+    return Center(
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
         ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Angka Sekarang:"),
-            const SizedBox(height: 10),
-            Obx(() => Text(
-                  "${c.count}",
-                  style: TextStyle(
-                    fontSize: (20 + c.count.value.toDouble()).clamp(20, 70),
-                    fontWeight: FontWeight.bold,
+        elevation: 6,
+        margin: const EdgeInsets.all(24),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                "Angka Sekarang",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black54,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Obx(() => Text(
+                    "${c.count}",
+                    style: TextStyle(
+                      fontSize: (20 + c.count.value.toDouble()).clamp(24, 70),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueAccent,
+                    ),
+                  )),
+              const SizedBox(height: 28),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      backgroundColor: Colors.redAccent,
+                    ),
+                    onPressed: c.decrement,
+                    child: const Text(
+                      "-",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
                   ),
-                )),
-            const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: c.decrement,
-                  child: const Text("-"),
-                ),
-                const SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: c.increment,
-                  child: const Text("+"),
-                ),
-              ],
-            ),
-          ],
+                  const SizedBox(width: 20),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      backgroundColor: Colors.green,
+                    ),
+                    onPressed: c.increment,
+                    child: const Text(
+                      "+",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
