@@ -1,3 +1,5 @@
+import 'package:belajar_getx/app/modules/album/controllers/album_controller.dart';
+import 'package:belajar_getx/app/modules/album/views/album_view.dart';
 import 'package:belajar_getx/app/modules/counter/controllers/counter_controller.dart';
 import 'package:belajar_getx/app/modules/counter/views/counter_view.dart';
 import 'package:belajar_getx/app/modules/formulir/controllers/formulir_controller.dart';
@@ -5,6 +7,8 @@ import 'package:belajar_getx/app/modules/formulir/views/formulir_view.dart';
 import 'package:belajar_getx/app/modules/home/controllers/home_controller.dart';
 import 'package:belajar_getx/app/modules/barang/controllers/barang_controller.dart';
 import 'package:belajar_getx/app/modules/barang/views/barang_view.dart';
+import 'package:belajar_getx/app/modules/post/controllers/post_controller.dart';
+import 'package:belajar_getx/app/modules/post/views/post_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,8 +21,10 @@ class HomeView extends GetView<HomeController> {
     Get.put(FormulirController());
     Get.put(CounterController());
     Get.put(BarangController());
+    Get.put(PostController());
+    Get.put(AlbumController());
 
-    final titles = ["Formulir", "Counter", "Barang"];
+    final titles = ["Formulir", "Counter", "Barang", "Post", "Album"];
 
     return Obx(
       () => Scaffold(
@@ -37,13 +43,15 @@ class HomeView extends GetView<HomeController> {
             FormulirView(), // jangan ada AppBar lagi di dalamnya
             CounterView(),
             BarangView(),
+            PostView(),
+            AlbumView(),
           ],
         ),
         bottomNavigationBar: BottomAppBar(
           shape: const CircularNotchedRectangle(),
           notchMargin: 8,
           child: SizedBox(
-            height: 56,
+            height: 55,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -62,6 +70,23 @@ class HomeView extends GetView<HomeController> {
                   icon: const Icon(Icons.shopping_bag),
                   label: const Text("Barang"),
                 ),
+                TextButton.icon(
+                  onPressed: () => controller.currentIndex.value = 3,
+                  icon: const Icon(Icons.article),
+                  label: const Text("Post"),
+                ),
+                TextButton.icon(
+                  onPressed: () => controller.currentIndex.value = 4,
+                  icon: const Icon(Icons.photo_album),
+                  label: const Text("Album"),
+                ),
+                // TextButton.icon(
+                //   onPressed: () {
+                //     controller.currentIndex.value = 4;
+                //   },
+                //   icon: const Icon(Icons.photo_album),
+                //   label: const Text("Album"),
+                // ),
               ],
             ),
           ),

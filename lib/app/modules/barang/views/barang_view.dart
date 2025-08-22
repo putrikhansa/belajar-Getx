@@ -4,17 +4,13 @@ import 'package:get/get.dart';
 import '../controllers/barang_controller.dart';
 
 class BarangView extends GetView<BarangController> {
-  const BarangView({Key? key}) : super(key: key);
+  const BarangView({super.key});
 
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
 
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text("Input Data Barang"),
-      //   centerTitle: true,
-      // ),
       backgroundColor: Colors.grey[100],
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -29,7 +25,7 @@ class BarangView extends GetView<BarangController> {
               child: Column(
                 children: [
                   const Text(
-                    "Input Data Barang",
+                    "Form Input",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -50,12 +46,9 @@ class BarangView extends GetView<BarangController> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Nama barang tidak boleh kosong";
-                      }
-                      return null;
-                    },
+                    validator: (value) => value == null || value.isEmpty
+                        ? "Nama barang tidak boleh kosong"
+                        : null,
                   ),
                   const SizedBox(height: 20),
 
@@ -73,12 +66,10 @@ class BarangView extends GetView<BarangController> {
                       ),
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      if (value == null || value.isEmpty)
                         return "Jumlah tidak boleh kosong";
-                      }
-                      if (int.tryParse(value) == null) {
+                      if (int.tryParse(value) == null)
                         return "Jumlah harus angka";
-                      }
                       return null;
                     },
                   ),
@@ -98,12 +89,10 @@ class BarangView extends GetView<BarangController> {
                       ),
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      if (value == null || value.isEmpty)
                         return "Harga tidak boleh kosong";
-                      }
-                      if (int.tryParse(value) == null) {
+                      if (int.tryParse(value) == null)
                         return "Harga harus angka";
-                      }
                       return null;
                     },
                   ),
@@ -111,7 +100,7 @@ class BarangView extends GetView<BarangController> {
 
                   // Kategori
                   Obx(
-                    () => DropdownButtonFormField(
+                    () => DropdownButtonFormField<String>(
                       decoration: InputDecoration(
                         labelText: 'Pilih Kategori',
                         prefixIcon: const Icon(Icons.category),
@@ -121,52 +110,38 @@ class BarangView extends GetView<BarangController> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      value: controller.kategori.value.isEmpty
-                          ? null
-                          : controller.kategori.value,
-                      items: controller.daftarKategori.map((kategori) {
-                        return DropdownMenuItem(
-                          value: kategori,
-                          child: Text(kategori),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        controller.kategori.value = value!;
-                      },
-                      validator: (value) {
-                        if (value == null || value.toString().isEmpty) {
-                          return "Kategori wajib dipilih";
-                        }
-                        return null;
-                      },
+                      value: controller.kategori.value,
+                      items: controller.daftarKategori
+                          .map((kategori) => DropdownMenuItem(
+                                value: kategori,
+                                child: Text(kategori),
+                              ))
+                          .toList(),
+                      onChanged: (value) => controller.kategori.value = value!,
+                      validator: (value) => value == null || value.isEmpty
+                          ? "Kategori wajib dipilih"
+                          : null,
                     ),
                   ),
                   const SizedBox(height: 20),
 
-                  // Tanggal
-                  Obx(
-                    () => TextFormField(
-                      readOnly: true,
-                      controller: TextEditingController(
-                        text: controller.formattedDate,
+                  // Tanggal (tanpa Obx)
+                  TextFormField(
+                    readOnly: true,
+                    controller: controller.dateC,
+                    decoration: InputDecoration(
+                      labelText: 'Tanggal',
+                      prefixIcon: const Icon(Icons.calendar_today),
+                      filled: true,
+                      fillColor: Colors.grey[50],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      decoration: InputDecoration(
-                        labelText: 'Tanggal',
-                        prefixIcon: const Icon(Icons.calendar_today),
-                        filled: true,
-                        fillColor: Colors.grey[50],
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      onTap: () => controller.pickDate(),
-                      validator: (value) {
-                        if (controller.formattedDate.isEmpty) {
-                          return "Tanggal harus dipilih";
-                        }
-                        return null;
-                      },
                     ),
+                    onTap: () => controller.pickDate(),
+                    validator: (value) => value == null || value.isEmpty
+                        ? "Tanggal harus dipilih"
+                        : null,
                   ),
                   const SizedBox(height: 30),
 
